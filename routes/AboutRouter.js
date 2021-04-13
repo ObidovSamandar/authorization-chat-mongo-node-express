@@ -20,6 +20,8 @@ router.get('/',async (req,res)=>{
         }
     
         let photosFolderPath = path.join(__dirname,"..","public","photos",`${user[0].givenId}.jpg`)
+        console.log(__dirname)
+        console.log(photosFolderPath)
         let exist = fsOld.existsSync(photosFolderPath)
         if(exist){
             await database.saveAvatarImgPath(user[0]._id,photosFolderPath)
@@ -69,6 +71,7 @@ router.get('/:name', async (req,res)=>{
 })
 
 router.post('/photo',fileUpload(), async (req,res)=>{
+    console.log('Hello')
     let user;
     let users = await database.findAlluser()
     if(req.cookies.token){

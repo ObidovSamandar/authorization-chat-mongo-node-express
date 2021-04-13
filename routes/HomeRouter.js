@@ -46,7 +46,7 @@ router.post('/', async (req, res)=>{
         user = confirmToken(req.cookies.token)
         user =await database.findUserById(user.user)
         if(message.length==0) throw new Error('Please write message')
-         await database.writeMessage(user[0]._id,message,moment().unix(),new Date (moment()))
+         await database.writeMessage(user[0]._id,message,moment().unix(),moment().format())
         res.redirect('/')
     }catch(e){
         users = await database.findAlluser()
