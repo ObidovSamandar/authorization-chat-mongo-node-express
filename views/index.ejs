@@ -1,0 +1,45 @@
+<%- include('./parts/header.ejs') %> 
+<%- include('./parts/navbar.ejs') %> 
+<% let months=['January','February','March','April','May','June','July','August','Septempber','October','November','December'] %>
+    <main class="mt-5">
+        <div class="container">
+            <% if(userInfo.name) {%>
+                 <h2 class="text-center mt-4 mb-3">Assalomu Aleykum <%= userInfo.name%>. Chatga xush kelibsiz!
+                 </h2>
+            <% }%>
+            <div class="row  chat__main__wrapper mt-4">
+                <div class="col-lg-5 h-100  chat__wrapper">
+                    <form class="w-100 form__wrapper" action="/" method="POST">
+                        <% if(error){ %> 
+                            <div class="alert alert-danger"><%=error %> </div>
+                        <% } %> 
+                        <textarea class="w-100 textarea__wrapper mb-3 form-control" name="message" placeholder="Message" id="chat_desk" required></textarea>
+                        <button type="submit" class="w-100 mb-3 btn btn-primary">Send Message</button>
+                   </form>
+                </div>
+                <div class="col-lg-7 h-100 messages__wrapper">
+                    <ul class="messages">
+                        <% if(message){ %> 
+                            <% for(value of message) {%> 
+                                <% for(messag of value.message){ %> 
+                                    <li class="sent__message <%=value.name!=userInfo.name? 'align-self-end text-end' : ' '%>">
+                                        <a href='/about/<%=value.name%>'>
+                                            <p class="name"><%=value.name%> </p>
+                                        </a>
+                                        <p class="my-1"><%=messag.textWritten%> </p>
+                                        <p class="time">
+                                            <% let writtenDate= new Date(messag.writtenTime) %> 
+                                            <%=
+                                                writtenDate.getDate()+" "+months[writtenDate.getMonth()]+" "+writtenDate.getFullYear()+" "+writtenDate.getHours()+":"+writtenDate.getMinutes()
+                                            %> 
+                                        </p>
+                                    </li>
+                                <%}%> 
+                            <% } %> 
+                        <% } %> 
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+<%- include('./parts/footer.ejs') %> 

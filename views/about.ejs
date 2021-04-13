@@ -1,0 +1,27 @@
+<%- include('./parts/header.ejs') %> 
+<%- include('./parts/navbar.ejs') %> 
+    <main class="mt-4">
+        <div class="container">
+            <h1 class="text-center mb-4">About <%= userInfo.name %> </h1>
+            <div class="card bg-light">
+                <div class="row">
+                    <div class="col-4">
+                       <label for="photo">
+                        <img src="<%= userInfo.photo %>" class="card-img-top" alt="Random Img">
+                        <input type="file" id="photo" class="visually-hidden">
+                       </label>
+                    </div>
+                    <div class="col-8">
+                        <h3 class="p-4"><%= userInfo.name %> </h3>
+                        <ul>
+                            <li>
+                                <p>Email: <%= userInfo.email %> </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./js/user.js"></script>
+<%- include('./parts/footer.ejs') %> 
