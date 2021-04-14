@@ -1,0 +1,1 @@
+### It is simple Application which user can his/her register account and singin to his/her account. Besides that user can send message to others users. It requires refreshing the page  only when other users send message.
