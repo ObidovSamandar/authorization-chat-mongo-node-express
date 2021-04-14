@@ -88,6 +88,7 @@ router.post('/photo',fileUpload(), async (req,res)=>{
 
     if(req?.files?.photo && (req?.files?.photo?.mimetype=='image/jpeg'||req?.files?.photo?.mimetype=='image/png')){
         let photosFolderPath = path.join(__dirname,"..","public","photos",userInfo.id+'.jpg')
+        console.log(req.files.photo)
         console.log(photosFolderPath)
         console.log(__dirname)
         await fs.writeFile(photosFolderPath, req?.files?.photo?.data)
