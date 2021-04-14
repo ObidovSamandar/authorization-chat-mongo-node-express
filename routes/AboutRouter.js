@@ -21,17 +21,18 @@ router.get('/',async (req,res)=>{
     
         let photosFolderPath = path.join(__dirname,"..","public","photos",`${user[0].givenId}.jpg`)
         let exist = fsOld.existsSync(photosFolderPath)
+        console.log(exist)
         if(exist){
             await database.saveAvatarImgPath(user[0]._id,photosFolderPath)
         }else{
-            photosFolderPath = ""
+            photosFolderPath = path.join(__dirname,'..','public','photos','avatar.png')
             await database.saveAvatarImgPath(user[0]._id,photosFolderPath)
         }
         let userInfo={
             name:user[0]?.name || "",
             email:user[0]?.email || "",
             id: user[0]?.givenId || "userqaysidir",
-            photo: exist ? `/photos/${user[0].givenId}.jpg`: 'https://picsum.photos/400'
+            photo: exist ? `/photos/${user[0].givenId}.jpg`: '/photos/avatar.png'
         }
         res.render('about',{
             title:"About Page",
@@ -55,7 +56,7 @@ router.get('/:name', async (req,res)=>{
             name:user?.name || "",
             email:user?.email || "",
             id: user?.givenId || "userqaysidir",
-            photo: exist ? `/photos/${user.givenId}.jpg`: 'https://picsum.photos/400'
+            photo: exist ? `/photos/${user.givenId}.jpg`: '/photos/avatar.png'
         }
         res.render('about',{
             title:"About Page",
@@ -86,12 +87,9 @@ router.post('/photo',fileUpload(), async (req,res)=>{
             email:user?.email || "",
             id: user?.givenId || "userqaysidir",
         }
-
         if(req?.files?.photo && (req?.files?.photo?.mimetype=='image/jpeg'||req?.files?.photo?.mimetype=='image/png')){
-            let photosFolderPath = path.join(__dirname,"..","public","photos")
-            console.log(photosFolderPath)
-            console.log(__dirname)
-            await fs.writeFile(photosFolderPath+"/1.jpg", req?.files?.photo?.data)
+            let photosFolderPath = path.join(__dirname,"..","public","photos",`${userInfo.id}.jpg`)
+            await fs.writeFile(photosFolderPath, req?.files?.photo?.data)
         }else{
             res.send({
                 ok:false
