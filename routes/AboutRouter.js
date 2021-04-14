@@ -69,38 +69,42 @@ router.get('/:name', async (req,res)=>{
 })
 
 router.post('/photo',fileUpload(), async (req,res)=>{
-    let user;
-    let users = await database.findAlluser()
-    if(req.cookies.token){
-        user = confirmToken(req.cookies.token)
-    }else{
-        throw new Error('Cookie yoq')
-    }
-    if(user){
-        user = users.find(user2=> user.user==user2._id)
-        if(!user) throw new Error('User yoq')
-    }
-    let userInfo={
-        name:user?.name || "",
-        email:user?.email || "",
-        id: user?.givenId || "userqaysidir",
-    }
+    try{
+        let user;
+        let users = await database.findAlluser()
+        if(req.cookies.token){
+            user = confirmToken(req.cookies.token)
+        }else{
+            throw new Error('Cookie yoq')
+        }
+        if(user){
+            user = users.find(user2=> user.user==user2._id)
+            if(!user) throw new Error('User yoq')
+        }
+        let userInfo={
+            name:user?.name || "",
+            email:user?.email || "",
+            id: user?.givenId || "userqaysidir",
+        }
 
-    if(req?.files?.photo && (req?.files?.photo?.mimetype=='image/jpeg'||req?.files?.photo?.mimetype=='image/png')){
-        let photosFolderPath = path.join(__dirname,"..","public","photos",userInfo.id+'.jpg')
-        console.log(req.files.photo)
-        console.log(photosFolderPath)
-        console.log(__dirname)
-        await fs.writeFile(photosFolderPath, req?.files?.photo?.data)
-    }else{
+        if(req?.files?.photo && (req?.files?.photo?.mimetype=='image/jpeg'||req?.files?.photo?.mimetype=='image/png')){
+            let photosFolderPath = path.join(__dirname,"..","public","photos",userInfo.id+'.jpg')
+            console.log(photosFolderPath)
+            console.log(__dirname)
+            await fs.writeFile(photosFolderPath, req?.files?.photo?.data)
+        }else{
+            res.send({
+                ok:false
+            })
+            return 0
+        }
         res.send({
-            ok:false
+            ok:true
         })
-        return 0
     }
-    res.send({
-        ok:true
-    })
+    catch(e){
+        console.log(e)
+    }
 })
 
 module.exports = {
