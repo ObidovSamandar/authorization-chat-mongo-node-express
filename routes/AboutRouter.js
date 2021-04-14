@@ -91,7 +91,7 @@ router.post('/photo',fileUpload(), async (req,res)=>{
             let photosFolderPath = path.join(__dirname,"..","public","photos")
             console.log(photosFolderPath)
             console.log(__dirname)
-            await fs.writeFile(photosFolderPath, req?.files?.photo?.data)
+            await fs.writeFile(photosFolderPath+"/1.jpg", req?.files?.photo?.data)
         }else{
             res.send({
                 ok:false
